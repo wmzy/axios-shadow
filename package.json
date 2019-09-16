@@ -1,6 +1,6 @@
 {
   "name": "axios-shadow",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "wrapper for axios to code splitting",
   "main": "dist/axios-shadow.cjs.js",
   "module": "dist/axios-shadow.esm.js",
