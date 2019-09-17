@@ -12,12 +12,49 @@ npm i axios-shadow
 
 ## Usage
 
+### Init with a splitting axios
+
+With [dynamic imports](https://webpack.js.org/guides/code-splitting/#dynamic-imports) we can split `axios` from the main bundle.
+
 ```js
 import axios from 'axios-shadow';
 
 axios.getModule = () => import('axios');
 // or
-axios.getInstance = () => import('axios').then(m => m.default);
+axios.getInstance = () => import('axios').then(({default: axios}) => {
+  // you can init global axios defaults and interceptors
+  axios.defaults.baseURL = 'https://api.example.com';
+  // ...
+
+  // custom instance also support
+  // return axios.create();
+  return axios;
+});
+```
+
+### Use a shadow instance
+
+```js
+// axios.js
+import {create} from 'axios-shadow';
+
+const axios = create();
+
+axios.getInstance = () => import('axios').then(m => m.default.create());
+
+export default axios;
+```
+
+### Use axios shadow for request
+
+```js
+import axios from 'axios-shadow';
+// or
+import axios from './axios';
+
+// all async methods are proxied
+axios(url).then(response => {});
+axios.get(url).then(response => {});
 ```
 
 ## Compatibility Note
