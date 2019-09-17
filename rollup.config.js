@@ -24,6 +24,7 @@ export default {
     {
       name: pkg.name,
       file: pkg.browser,
+      exports: 'named',
       sourcemap: true,
       format: 'umd'
     },
@@ -31,6 +32,7 @@ export default {
       name: pkg.name,
       banner,
       file: pkg.unpkg,
+      exports: 'named',
       sourcemap: true,
       format: 'umd'
     },
@@ -42,6 +44,7 @@ export default {
     // `file` and `format` for each target)
     {
       file: pkg.main,
+      exports: 'named',
       sourcemap: true,
       format: 'cjs'
     },
