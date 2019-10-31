@@ -1,11 +1,8 @@
 export function create() {
+  let instance;
   function axiosShadow(...params) {
-    return (
-      axiosShadow
-        .getInstance()
-        // eslint-disable-next-line prefer-spread, prefer-rest-params
-        .then(axios => axios(...params))
-    );
+    instance = instance || axiosShadow.getInstance();
+    return instance.then(axios => axios(...params));
   }
 
   axiosShadow.getInstance = function getInstance() {
@@ -22,11 +19,10 @@ export function create() {
     'put',
     'patch'
   ].forEach(method => {
-    axiosShadow[method] = (...params) =>
-      axiosShadow
-        .getInstance()
-        // eslint-disable-next-line prefer-spread, prefer-rest-params
-        .then(axios => axios[method](...params));
+    axiosShadow[method] = (...params) => {
+      instance = instance || axiosShadow.getInstance();
+      return instance.then(axios => axios[method](...params));
+    };
   });
 
   return axiosShadow;
